@@ -18,9 +18,18 @@ def addon(tmpdir):
     yield addon
 
 
+@pytest.fixture
+def capabilities(request, capabilities):
+    driver = request.config.getoption('driver')
+    if capabilities.get('browserName', driver).lower() == 'firefox':
+        capabilities['marionette'] = True
+    return capabilities
+
+
 @pytest.fixture(scope='session')
-def session_capabilities(session_capabilities):
-    session_capabilities.setdefault('tags', []).append('amo')
+def session_capabilities(pytestconfig, session_capabilities):
+    if pytestconfig.getoption('driver') == 'SauceLabs':
+        session_capabilities.setdefault('tags', []).append('amo')
     return session_capabilities
 
 

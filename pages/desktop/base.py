@@ -154,9 +154,8 @@ class Base(Page):
         def click_complete_themes(self):
             themes_menu = self.selenium.find_element(By.CSS_SELECTOR, '#themes')
             complete_themes_menu = self.selenium.find_element(*self._complete_themes_menu_locator)
-            ActionChains(self.selenium).move_to_element(themes_menu).\
-                move_to_element(complete_themes_menu).click().\
-                perform()
+            ActionChains(self.selenium).move_to_element(themes_menu).perform()
+            complete_themes_menu.click()
             from pages.desktop.complete_themes import CompleteThemes
             return CompleteThemes(self.base_url, self.selenium)
 
@@ -164,9 +163,8 @@ class Base(Page):
             hover_locator = self.selenium.find_element(*self._other_applications_locator)
             app_locator = self.selenium.find_element(By.CSS_SELECTOR,
                                                      "#app-%s > a" % other_app.lower())
-            ActionChains(self.selenium).move_to_element(hover_locator).\
-                move_to_element(app_locator).\
-                click().perform()
+            ActionChains(self.selenium).move_to_element(hover_locator).perform()
+            app_locator.click()
 
         def is_other_application_visible(self, other_app):
             hover_locator = self.selenium.find_element(*self._other_applications_locator)
@@ -245,20 +243,19 @@ class Base(Page):
             item_locator = (By.CSS_SELECTOR, " li:nth-child(3) a")
             hover_element = self.selenium.find_element(*self._account_controller_locator)
             click_element = self.selenium.find_element(*self._account_dropdown_locator).find_element(*item_locator)
-            ActionChains(self.selenium).move_to_element(hover_element).\
-                move_to_element(click_element).\
-                click().perform()
+            ActionChains(self.selenium).move_to_element(hover_element).perform()
+            click_element.click()
 
             from pages.desktop.user import MyCollections
             return MyCollections(self.base_url, self.selenium)
 
         def click_my_favorites(self):
+            self.selenium.execute_script('window.scrollTo(0, 0);')
             item_locator = (By.CSS_SELECTOR, " li:nth-child(4) a")
             hover_element = self.selenium.find_element(*self._account_controller_locator)
             click_element = self.selenium.find_element(*self._account_dropdown_locator).find_element(*item_locator)
-            ActionChains(self.selenium).move_to_element(hover_element). \
-                move_to_element(click_element). \
-                click().perform()
+            ActionChains(self.selenium).move_to_element(hover_element).perform()
+            click_element.click()
 
             from pages.desktop.user import MyFavorites
             return MyFavorites(self.base_url, self.selenium)

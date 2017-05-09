@@ -25,14 +25,8 @@ class Sorter(Page):
 
     _hover_more_locator = (By.CSS_SELECTOR, "li.extras > a")
     _updating_locator = (By.CSS_SELECTOR, '.updating')
-    _footer_locator = (By.ID, 'footer')
 
     def sort_by(self, category):
-        """This is done because sometimes the hover menus remains open so we move the focus to footer to close the menu
-        We go to footer because all the menus open a window under them so moving the mouse from down to up will not leave any menu
-        open over the desired element"""
-        footer_element = self.selenium.find_element(*self._footer_locator)
-        ActionChains(self.selenium).move_to_element(footer_element).perform()
         click_element = self.selenium.find_element(*getattr(self, '_sort_by_%s_locator' % category.replace(' ', '_').lower()))
         if category.replace(' ', '_').lower() in ["featured", "most_users", "top_rated", "newest"]:
             click_element.click()
