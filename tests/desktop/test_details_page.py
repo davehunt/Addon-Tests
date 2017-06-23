@@ -127,6 +127,9 @@ class TestDetails:
         assert not viewer.is_displayed
 
     @pytest.mark.nondestructive
+    @pytest.mark.xfail(
+        condition=pytest.config.getoption('driver').lower() == 'firefox',
+        reason='visbility issue with Firefox')
     def test_image_viewer_navigation(self, base_url, selenium):
         page = Details(base_url, selenium, 'firebug')
         thumbnails = page.previews.thumbnails
