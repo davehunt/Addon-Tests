@@ -238,13 +238,3 @@ class TestDetails:
         assert 'What\'s this?' == details_page.license_faq_text
         license_faq = details_page.click_whats_this_license()
         assert 'Frequently Asked Questions' == license_faq.header_text
-
-    @pytest.mark.nondestructive
-    @pytest.mark.xfail(reason='https://github.com/mozilla/addons-server/issues/5135')
-    def test_view_the_source_in_the_version_information(self, base_url, selenium):
-        details_page = Details(base_url, selenium, "Firebug")
-        assert 'Version Information' == details_page.version_information_heading
-        details_page.expand_version_information()
-        assert 'View the source' == details_page.view_source_code_text
-        view_source = details_page.click_view_source_code()
-        assert '/files/browse/' in view_source.get_url_current_page()

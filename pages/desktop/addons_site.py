@@ -110,12 +110,3 @@ class UserFAQ(Base):
     @property
     def license_answer(self):
         return self.selenium.find_element(*self._license_answer_locator).text
-
-
-class ViewAddonSource(Base):
-
-    _file_viewer_locator = (By.ID, 'file-viewer')
-
-    @property
-    def is_file_viewer_visible(self):
-        return self.is_element_visible(*self._file_viewer_locator)

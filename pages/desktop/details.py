@@ -28,7 +28,6 @@ class Details(Base):
     _rating_locator = (By.CSS_SELECTOR, "span.stars.large")
     _license_link_locator = (By.CSS_SELECTOR, ".source-license > a")
     _whats_this_license_locator = (By.CSS_SELECTOR, "a.license-faq")
-    _view_the_source_locator = (By.CSS_SELECTOR, "a.source-code")
     _complete_version_history_locator = (By.CSS_SELECTOR, "p.more > a")
     _description_locator = (By.CSS_SELECTOR, "div.prose")
     _other_applications_locator = (By.ID, "other-apps")
@@ -233,21 +232,6 @@ class Details(Base):
     @property
     def is_source_code_license_information_visible(self):
         return self.is_element_visible(*self._source_code_license_information_locator)
-
-    @property
-    def is_view_the_source_link_visible(self):
-        return self.is_element_visible(*self._view_the_source_locator)
-
-    def click_view_source_code(self):
-        self.selenium.find_element(*self._view_the_source_locator).click()
-        from pages.desktop.addons_site import ViewAddonSource
-        addon_source = ViewAddonSource(self.base_url, self.selenium)
-        WebDriverWait(self.selenium, self.timeout).until(lambda s: addon_source.is_file_viewer_visible)
-        return addon_source
-
-    @property
-    def view_source_code_text(self):
-        return self.selenium.find_element(*self._view_the_source_locator).text
 
     @property
     def is_complete_version_history_visible(self):
